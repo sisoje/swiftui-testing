@@ -1,5 +1,7 @@
 # SwiftUI Interaction Tests
 
+> Snapshot testing, but for actions.
+
 A snapshot testing framework for SwiftUI UI interactions. Tests define views as codable structs, user interactions are captured as text logs, and tests verify the logs match saved snapshots.
 
 ## Snapshot Testing
