@@ -12,9 +12,9 @@ jobs:
           path: |
             .build
             .derivedData
-          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/Package.resolved') }}
           restore-keys: |
-            ${{ runner.os }}-spm-
+            ${{ runner.os }}-
       - run: sh run.sh
       - uses: actions/upload-artifact@v4
         if: always()
