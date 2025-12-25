@@ -1,25 +1,35 @@
-# SwiftUI Interaction UI Tests
+# SwiftUI Functional Core Tests
 
 > Snapshot testing, but for actions.
 
-A starter template for SwiftUI UI interaction testing. Clone it, drop it into your project, and customize it to test your views. Tests define views as codable structs, user interactions are captured as text snapshots, and tests verify the snapshots match saved ones.
+A starter template for SwiftUI functional core testing. Clone it, drop it into your project, and customize it to test your views. Tests define views as codable structs, actions are captured as text snapshots, and tests verify the snapshots match saved ones.
+
+## Action Snapshots
+
+Runs in an XCTest UI test target, but it does not check visuals/screenshots. Snapshots are **plain-text action logs**: taps, state changes, effects, lifecycle events.
+
+## Why This Works
+
+A SwiftUI `View` is a data struct, not a view object. The `body` is a computed property that recomposes data into new view values. The framework handles rendering (imperative shell), so the `View` IS the functional core.
+
+By capturing the sequence of actions, these tests verify how initial state behaves through the entire data flow.
 
 ## How It Works
 
-This is **interaction snapshot testing**:
+This is **action snapshot testing**:
 
-1. First run: Test executes, interactions are logged to a text file (snapshot is created)
+1. First run: Test executes, actions are logged to a text file (snapshot is created)
 2. Test is skipped with "generating new snapshot"
 3. Subsequent runs: New snapshot is compared against the saved one
-4. Test fails if snapshots don't match (behavior changed)
+4. Test fails if snapshots don't match (data flow changed)
 
-Similar to Jest snapshots or Swift Snapshot Testing, but for **user interactions** instead of visual/data output.
+Similar to Jest snapshots or Swift Snapshot Testing, but for **actions** instead of visual/data output.
 
 **Implementation:**
 
 1. Tests define `TestView` with a `ViewBody` (e.g., `.button(text: "demo")`)
 2. App launches with the view passed via environment variable
-3. UI interactions (taps, swipes, state changes, lifecycle events like `onAppear`) write to text snapshot files
+3. Actions write to text snapshot files
 4. On teardown, tests compare generated snapshots against saved ones
 
 ## Usage
@@ -32,7 +42,7 @@ Similar to Jest snapshots or Swift Snapshot Testing, but for **user interactions
 sh run.sh
 ```
 
-The script generates the Xcode project with XcodeGen, picks the first available iPhone simulator, and runs UI tests.
+The script generates the Xcode project with XcodeGen, picks the first available iPhone simulator, and runs tests.
 
 To test your own package, uncomment the `packages` section in `project.yml`.
 
@@ -67,7 +77,7 @@ case let .yourType(param):
     }
 ```
 
-Capture any interaction: taps, swipes, state changes, lifecycle events, text input, etc.
+Capture any action: taps, swipes, state changes, lifecycle events, text input, etc.
 
 Update snapshots: delete the file in `Snapshots/`, rerun test.
 
